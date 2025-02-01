@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Masita</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+        
+        body {
+            font-family: 'Dancing Script', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #add8e6;
+            text-align: center;
+            position: relative;
+        }
+        textarea {
+            width: 80%;
+            height: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #imageContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 80%;
+            border-radius: 10px;
+        }
+        #page2 {
+            position: relative;
+        }
+        #backgroundImage {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.2;
+            z-index: -1;
+            width: 80%;
+        }
+        #typedText {
+            font-size: 20px;
+            white-space: pre-line;
+            border-right: 3px solid black;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="page1">
+        <h1>Felices año y 5 meses mi vida hermosa</h1>
+        <p>Ahora quise probar algo nuevo y espero que te guste este detalle</p>
+        <h2>Bloc de Notas</h2>        <textarea id="notepad"></textarea>
+        <button onclick="saveNote()">Guardar</button>
+        <button onclick="showImage()">Ver Sorpresa</button>
+        <button onclick="changePage()">Siguiente</button>
+        <div id="imageContainer">
+            <img src="https://i.pinimg.com/736x/7f/74/8c/7f748c00de6807840a05c5a1a0b41e1e.jpg" alt="Sorpresa para ti" id="surpriseImage">
+        </div>
+    </div>
+    
+    <div id="page2" style="display: none;">
+        <img src="https://i.pinimg.com/736x/23/7c/36/237c36472bc39b23f5d9df6dcd249f39.jpg" alt="Tulipanes" id="backgroundImage">
+        <h1>Mensaje para ti</h1>
+        <p id="typedText"></p>
+        <button onclick="goBack()">Volver</button>
+    </div>
+    
+    <script>
+        function saveNote() {
+            const text = document.getElementById('notepad').value;
+            localStorage.setItem('notepadContent', text);
+            alert('Nota guardada!');
+        }
+
+        function showImage() {
+            document.getElementById('imageContainer').style.display = 'block';
+        }
+
+        function changePage() {
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+            typeText();
+        }
+
+        function goBack() {
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page1').style.display = 'block';
+        }
+
+        function typeText() {
+            const text = "La verdad amor me confundi si eran 1 año y 4 meses o 5...\n\nPero eso no significa que mi amor disminuya por ti, sé que a lo largo de este año y meses han pasado demasiadas cosas, nos hemos alejado dos veces, y la verdad esas dos veces que han pasado hemos podido solucionar las cosas.\n\nSé que en algunos momentos han sido más feos que otros, pero en verdad no sabes lo mucho que te amo y lo importante que te volviste en mi vida.";
+            let i = 0;
+            const speed = 50; 
+            const textContainer = document.getElementById("typedText");
+            textContainer.innerHTML = "";
+            
+            function typeCharacter() {
+                if (i < text.length) {
+                    textContainer.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeCharacter, speed);
+                } else {
+                    textContainer.style.borderRight = "none";
+                }
+            }
+            typeCharacter();
+        }
+
+        window.onload = function() {
+            document.getElementById('notepad').value = localStorage.getItem('notepadContent') || '';
+        }
+    </script>
+</body>
+</html>
